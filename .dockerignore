@@ -1,0 +1,21 @@
+# ==== Git ====
+.git
+.gitignore
+
+# ==== Environment files and secrets ====
+.env
+.env.*
+!.env.example
+!.env.docker.example
+
+# ==== Local development artifacts ====
+**/.DS_Store
+**/Thumbs.db
+**/*.log
+**/.idea/
+**/.vscode/
+
+# ==== Temporary files ====
+*.tmp
+*.swp
+*.bak
