@@ -4,6 +4,7 @@ services:
     build:
       context: ${FRONTEND_PATH}
       dockerfile: Dockerfile.dev
+    user: "${USER_ID}:${GROUP_ID}"
     ports:
       - "5173:5173"
     environment:
@@ -12,8 +13,6 @@ services:
       VITE_ONLYFFICE_URL: http://localhost:8082
     volumes:
       - ${FRONTEND_PATH}:/app
-      - /app/node_modules
-      - /app/.react-router
 
   backend:
     image: dcs-backend:dev
@@ -21,23 +20,19 @@ services:
       context: ${BACKEND_PATH}
       dockerfile: Dockerfile.dev
       args:
-        - uSER_ID=${USER_ID}
+        - USER_ID=${USER_ID}
         - GROUP_ID=${GROUP_ID}
-    env_file:
+    env_file: !override
       - ${BACKEND_PATH}/.env.dev
     environment:
       PHP_OPCACHE_ENABLE: "0"
     volumes:
       - ${BACKEND_PATH}:/var/www/html
-      - backend_vendor:/var/www/html/vendor
 
   worker:
     image: dcs-backend:dev
-    env_file:
+    env_file: !override
       - ${BACKEND_PATH}/.env.dev
     command: php artisan queue:listen
     volumes:
       - ${BACKEND_PATH}:/var/www/html
-      - backend_vendor:/var/www/html/vendor
-volumes:
-  backend_vendor:
