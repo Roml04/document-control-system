@@ -1,0 +1,43 @@
+services:
+  frontend:
+    image: dcs-frontend:dev
+    build:
+      context: ${FRONTEND_PATH}
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    environment:
+      NODE_ENV: development
+      VITE_API_URL: /api
+      VITE_ONLYFFICE_URL: http://localhost:8082
+    volumes:
+      - ${FRONTEND_PATH}:/app
+      - /app/node_modules
+      - /app/.react-router
+
+  backend:
+    image: dcs-backend:dev
+    build:
+      context: ${BACKEND_PATH}
+      dockerfile: Dockerfile.dev
+      args:
+        - uSER_ID=${USER_ID}
+        - GROUP_ID=${GROUP_ID}
+    env_file:
+      - ${BACKEND_PATH}/.env.dev
+    environment:
+      PHP_OPCACHE_ENABLE: "0"
+    volumes:
+      - ${BACKEND_PATH}:/var/www/html
+      - backend_vendor:/var/www/html/vendor
+
+  worker:
+    image: dcs-backend:dev
+    env_file:
+      - ${BACKEND_PATH}/.env.dev
+    command: php artisan queue:listen
+    volumes:
+      - ${BACKEND_PATH}:/var/www/html
+      - backend_vendor:/var/www/html/vendor
+volumes:
+  backend_vendor:
