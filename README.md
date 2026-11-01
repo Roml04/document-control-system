@@ -5,6 +5,8 @@
 
 <p align="center">
   <a href="./docs/setup-guide.md">Setup Guide</a>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="./docs/setup-guide-dev.md">Dev Setup Guide</a>
 </p>
 
 <img src="./docs/assets/files-page.png"/>

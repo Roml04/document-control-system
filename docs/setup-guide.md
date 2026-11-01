@@ -122,4 +122,4 @@ The system can be accessed through the local IP address on port `3000` of the ma
 
 > e.g. `192.168.254.2:3000`
 
-<h3 align="center">-- Setup Done --</h3>
+Setup Done!
